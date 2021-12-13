@@ -20,10 +20,6 @@ public class lobbymanager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        if(gameObject.GetPhotonView().IsMine)
-        {
-            gameObject.GetPhotonView().RPC("PlayerCount", RpcTarget.AllBuffered, playercount);
-        }
     }
     // Start is called before the first frame update
     void Start()

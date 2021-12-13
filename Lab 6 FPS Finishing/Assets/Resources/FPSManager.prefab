@@ -50,7 +50,9 @@ MonoBehaviour:
   - {fileID: 2403731864237466267, guid: 27a6ed4f38eba6441a34f112138c4e60, type: 3}
   - {fileID: 4184039770194503116, guid: 2f9a190cc9c821842ad877a244d6cadb, type: 3}
   - {fileID: 7385659551381558815, guid: 0d195d0aa06fd01438098ee6be17aaf0, type: 3}
+  maxScore: 250
   players: 
+  playerManagers: []
 --- !u!114 &2997972424444126668
 MonoBehaviour:
   m_ObjectHideFlags: 0

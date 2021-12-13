@@ -62,6 +62,8 @@ MonoBehaviour:
   - MapLoad
   - AddPlayer
   - UpdateList
+  - AddPlayers
+  - SetEndGame
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

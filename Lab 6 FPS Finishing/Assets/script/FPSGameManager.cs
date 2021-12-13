@@ -11,9 +11,10 @@ public class FPSGameManager : MonoBehaviourPunCallbacks
     public GameObject playerPrefab;
     public List<GameObject> spawnPoints = new List<GameObject>();
     int point;
-
+    public int maxScore = 250;
     public static FPSGameManager instance;
     public List<int> players = new List<int>();
+    public List<FPSPlayerManager> playerManagers = new List<FPSPlayerManager>();
 
     private void Awake()
     {
@@ -34,34 +35,38 @@ public class FPSGameManager : MonoBehaviourPunCallbacks
         {
             GameObject player = PhotonNetwork.Instantiate(playerPrefab.name, spawnPoints[point].transform.position, spawnPoints[point].transform.rotation);
             gameObject.GetPhotonView().RPC("UpdateDictionary", RpcTarget.AllBuffered, player.GetPhotonView().ControllerActorNr, false);
-            gameObject.GetPhotonView().RPC("UpdateList", RpcTarget.AllBuffered, player.GetComponent<FPSPlayerManager>());
+            AddPlayers(player.GetComponent<FPSPlayerManager>());
         }
 
+    }
+
+    private void Update()
+    {
+        if (playerManagers[0].points == maxScore)
+        {
+            KingofHillManager.instance.EndGame(playerManagers[0].username.text);
+        }
+    }
+
+    public void AddPlayers(FPSPlayerManager p)
+    {
+        if (!playerManagers.Contains(p))
+        {
+            playerManagers.Add(p);
+        }
     }
 
     [PunRPC]
     public void UpdateDictionary(int number, bool remove = false)
     {
-        if(!players.Contains(number) && !remove)
+        if (!players.Contains(number) && !remove)
         {
             players.Add(number);
         }
 
-        if(players.Contains(number) && remove)
+        if (players.Contains(number) && remove)
         {
             players.Remove(number);
-        }
-    }
-
-    [PunRPC]
-    public void UpdateList(FPSPlayerManager manager)
-    {
-        Debug.Log("Updatelistworks");
-
-        if (KingofHillManager.instance)
-        {
-            Debug.Log("Kingofhillworks");
-            KingofHillManager.instance.AddPlayers(manager);
         }
     }
 }

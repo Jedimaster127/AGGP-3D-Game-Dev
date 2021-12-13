@@ -11,10 +11,6 @@ public class KingofHillManager : MonoBehaviour
 {
     public static KingofHillManager instance;
 
-    int maxScore = 250;
-
-    public List<FPSPlayerManager> players = new List<FPSPlayerManager>();
-
     public GameObject winBoard;
 
     public Text winnername;
@@ -24,46 +20,13 @@ public class KingofHillManager : MonoBehaviour
         instance = this;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void EndGame(string user)
     {
-            if(players[0].points == maxScore)
-            {
-                gameObject.GetPhotonView().RPC("EndGame", RpcTarget.AllBuffered, players[0].username.text);
-            }
-            else if(players[1].points == maxScore)
-            {
-                gameObject.GetPhotonView().RPC("EndGame", RpcTarget.AllBuffered, players[1].username.text);
-            }
-            else if(players[2].points == maxScore)
-            {
-                gameObject.GetPhotonView().RPC("EndGame", RpcTarget.AllBuffered, players[2].username.text);
-            }
-            else if(players[3].points == maxScore)
-            {
-                gameObject.GetPhotonView().RPC("EndGame", RpcTarget.AllBuffered, players[3].username.text);
-            }
+        gameObject.GetPhotonView().RPC("SetEndGame", RpcTarget.AllBuffered, user);
     }
-
-    public void AddPlayers(FPSPlayerManager p)
-    {
-        if (!players.Contains(p))
-        {
-            players.Add(p);
-        }
-    }
-
-   /*[PunRPC]
-    void AddPlayer(FPSPlayerManager p)
-    {
-        if(!players.Contains(p))
-        {
-            players.Add(p);
-        }
-    }*/
 
     [PunRPC]
-    IEnumerator EndGame(string playername)
+    IEnumerator SetEndGame(string playername)
     {
         winBoard.SetActive(true);
         winnername.text = playername;
